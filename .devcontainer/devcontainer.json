@@ -1,35 +1,7 @@
 {
   "name": "SQL",
-  "dockerComposeFile": "docker-compose.yaml",
-  "service": "app",
   "forwardPorts": [5432],
-  "portsAttributes": {
-    "5432": {"label": "PostgreSQL port", "onAutoForward": "silent"}
-  },
-  // Configure tool-specific properties
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "tinkertrain.theme-panda",
-        "ms-vsliveshare.vsliveshare",
-        "GitHub.copilot",
-        "GitHub.copilot-chat",
-        "mtxr.sqltools",
-        "mtxr.sqltools-driver-pg"
-      ],
-      "settings": {
-        "sqltools.connections": [
-          {
-            "name": "Local DB",
-            "driver": "PostgreSQL",
-            "server": "localhost",
-            "port": 5432,
-            "database": "postgres",
-            "username": "admin",
-            "password": "Class2026"
-          }
-        ]
-      }
-    }
-  }
+  "features": [
+    "ghcr.io/itsmechlark/features/postgresql:1": {}
+  ]
 }
