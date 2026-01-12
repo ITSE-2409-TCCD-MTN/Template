@@ -8,9 +8,6 @@ services:
       args:
         IMAGE: python:3.12
 
-    volumes:
-      - ..:/workspace:cached
-
     command: sleep infinity
 
     network_mode: service:db
