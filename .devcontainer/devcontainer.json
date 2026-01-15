@@ -1,7 +1,8 @@
 {
   "name": "SQL",
-  "forwardPorts": [5432],
   "features": {
-    "ghcr.io/itsmechlark/features/postgresql:1": {}
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "latest"
+    }
   }
 }
