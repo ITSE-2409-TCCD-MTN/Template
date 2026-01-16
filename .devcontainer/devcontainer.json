@@ -1,8 +1,8 @@
 {
   "name": "Postgres Container",
-  "dockerComposeFile": "docker-compose.yaml",
-  "service": "app",
-  "workspaceFolder": "/workspace",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -10,6 +10,6 @@
       ]
     }
   },
-  "postCreateCommand": "sudo sed -i 's/peer/trust/g' /etc/posgresql/*/main/pghba.conf && sudo sed -i 's/scram-sha-256/trust/g' /etc/postgresql/*/main/pg_hba.conf",
+  "postCreateCommand": "sudo ",
   "remoteUser": "vscode"
 }
