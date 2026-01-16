@@ -1,8 +1,15 @@
 {
-  "name": "SQL",
-  "features": {
-    "ghcr.io/itsmechlark/features/postgresql:1": {
-      "version": "latest"
+  "name": "Postgres Container",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-ossdata.vscode-pgsql"
+      ]
     }
-  }
+  },
+  "postCreateCommand": "sudo sed -i 's/peer/trust/g' /etc/posgresql/*/main/pghba.conf && sudo sed -i 's/scram-sha-256/trust/g' /etc/postgresql/*/main/pg_hba.conf",
+  "remoteUser": "vscode"
 }

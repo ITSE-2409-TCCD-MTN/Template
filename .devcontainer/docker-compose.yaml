@@ -5,22 +5,10 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-      args:
-        IMAGE: python:3.12
 
-    command: sleep infinity
-
-    network_mode: service:db
-
-  db:
-    image: postgres:latest
-    restart: unless-stopped
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: Class2026
+      - ..:/workspace:cached
 
-volumes:
-  postgres-data
+    # command: /bin/sh -c "sudo /etc/init.d/postgresql start && /bin/bash"
+    # try: true
+    # stdin_open: true
