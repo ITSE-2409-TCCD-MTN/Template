@@ -7,40 +7,36 @@ ENV PGUSER=postgres
 
 # Install PostgreSQL
 RUN apt-get update && apt-get upgrade -y \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends postgresql postgresql-contrib \
+    && export DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get -y install --no-install-recommends postgresql postgresql-contrib \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# Configure the database
-RUN mkdir -p $PGDATA \
-    && chown -R postgres:postgres $PGDATA \
-    && chmod 750 $PGDATA
+RUN mkdir /var/lib/postgresql/data
 
-# Allow any user on the local system to connect to any database with
-# any database user name using Unix-domain sockets (the default for local
-# connections).
-#
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
-RUN echo "local   all             all                                     trust" > $PGDATA/pg_hba.conf \
+COPY <<EOF /etc/postgresql/16/main/postgresql.conf
+listen_addresses = '*'
+data_directory = '/var/lib/postgresql/data'
+EOF
 
-# The same using local loopback TCP/IP connections.
-#
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
-    && echo "host    all             all             127.0.0.1/32            trust" >> $PGDATA/pg_hba.conf \
+COPY <<EOF /etc/postgresql/16/main/pg_hba.conf
+local   all all trust
+host    all all 127.0.0.1/32    trust
+host    all all localhost   trust
+EOF
 
-# The same as the previous line, but using a separate netmask column
-#
-# TYPE  DATABASE        USER            IP-ADDRESS      IP-MASK             METHOD
-    && echo "host    all             all             127.0.0.1       255.255.255.255     trust" >> $PGDATA/pg_hba.conf \
+RUN <<EOT
+chown -R postgres:postgres "${PGDATA}"
+chmod 0750 $PGDATA
+chown -R postgres:postgres /etc/postgresql/16/main
+sudo -H -u postgres sh -c "/usr/lib/postgresql/16/bin/initdb -D ${PGDATA} --auth trust --auth-local trust --auth-host trust"
+sudo -H -u postgres sh -c "/usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/data start"
+EOT
 
-# The same over IPv6.
-#
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
-    && echo "host    all             all             ::1/128                 trust" >> $PGDATA/pg_hba.conf \
+# RUN sudo cat /etc/postgresql/16/main/pg_hba.conf
+# RUN pg_isready
 
-# The same using a host name (would typically cover both IPv4 and IPv6).
-#
-# TYPE  DATABASE        USER            ADDRESS                 METHOD
-    && echo "host    all             all             localhost               trust" >> $PGDATA/pg_hba.conf
-
-RUN mv /workspace/*/.devcontainer/pg_hba.conf $PGDATA/
+# RUN <<EOT
+# su postgres
+# /usr/lib/postgresql/16/bin/pg_ctl -D /var/lib/postgresql/data -l logfile start
+# EOT

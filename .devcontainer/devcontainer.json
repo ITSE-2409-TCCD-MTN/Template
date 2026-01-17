@@ -9,7 +9,5 @@
         "ms-ossdata.vscode-pgsql"
       ]
     }
-  },
-  "postCreateCommand": "sudo ",
-  "remoteUser": "vscode"
+  }
 }
