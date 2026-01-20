@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
-RUN apt-get update && apt-get upgrade -y
+RUN <<EOT
+sudo apt-get update && apt-get upgrade -y
+sudo apt-get clean -y && rm -rf /var/lib/apt/lists/*
+EOT
 # RUN apt-get -y install --no-install-recommends postgresql postgresql-contrib \
     # && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
