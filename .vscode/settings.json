@@ -1,10 +1,11 @@
 {
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": false,
-    "sql": false
-  },
-  "pgsql.serverGroups": [
+    "chat.disableAIFeatures": true,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "sql": false
+    },
+    "pgsql.serverGroups": [
         {
             "name": "Servers",
             "id": "BAB67037-33C2-40C4-93C6-74EE52B49DFB",
