@@ -9,6 +9,6 @@ sudo sh -c "echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresq
 sudo apt update
 
 sudo apt-get update && apt-get upgrade -y
-sudo apt-get -y install --no-install-recommends postgresql-client-18
+sudo apt-get -y install --no-install-recommends postgresql-client-18 python3
 sudo apt-get clean -y && rm -rf /var/lib/apt/lists/*
 EOT
